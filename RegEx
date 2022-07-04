@@ -1,0 +1,114 @@
+==============================================================================================================================================================
+Primeros metacaracteres
+
+Es necesario importar siempre re
+^ $
+Las expresiones de arriba sirven para buscar en una string el elemento con que empieza y el elemento con el que termina la cadena:
+
+string = "mi perro chocolo"
+re.search("^mi", string) #El string puede ser ingresado directamente acá o bien como parte de un string o una lista usando un for
+<re.Match object; span=(0, 2), match='mi'> #Encuentra "mi" y da la ubicación exacta en span = ()
+
+final ="chocolo$"
+re.search(final, string) #Acá se está buscando por la variable final que contiene una string
+<re.Match object; span=(9, 16), match='chocolo'> #encuentra chocolo y da la ubicación exacta
+
+En caso de no encontrarse este devuelve None
+
+============================================================================================================================================================================================================================================================================================================================
+Cuantificadores
+
+? + *
+Las expresiones de arriba sirven definir que margen de diferencias admite el programa cuando este busca
+
+El operador ? sirve para indicar al programa que puede existir una o ninguna ocurrencia considerando el caracter que lo precede inmediatamente:
+
+string = "me importa un comino"
+st = "con?mino" #En este caso le decimos al programa que esa n que está justo antes del signo puede estar o no y se trataría de la misma palabra
+re.search(st, string)
+<re.Match object; span=(14, 20), match='comino'>
+
+El operador + sirve para indicar que existe al menos una ocurrencia (o más):
+string = "Un factor commutativo"
+st = "com+utativo" #En ete caso le decimos al programa que esa m puede repetirse o aparecer más de una vez y se trataría de la misma palabra
+<re.Match object; span=(10, 21), match='commutativo'>
+
+El operador * sirve para indicar 0 o más ocurrencias, si se mezcla este más el ? (*?) esto fuerza al programa a buscar cero ocurrencias
+
+
+========================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================
+Más metacaracteres
+
+[] - .
+
+Los bracket cuadrados sirven en RegEx para armar sets, esto son varios caracteres que buscar:
+[abc] #Esto significa que el programa buscará dentro del string los caracteres a, b y c
+Además, dentro de este tipo de marcación la expresión ^ indica que no se busquen los caracteres indicados dentro del bracket
+[^abc] #Esto significa que el programa no buscará los carácteres a,b ni c
+
+La expresión - sirve para marcar rangos, por ejemplo 1-10 significa del 1 al 10 y a-f significa de la a a la final
+Si quiero indicar todas las letras puedo poner en el rango
+[a-z] #En este caso se buscan todas las letras minúsculas 
+[a-Z] #En este caso se buscan todas las letras incluyendo las mayúsculas y minúsculas
+
+re.findall("[a-d]", str)
+['d', 'a', 'a', 'd', 'a', 'b']
+Mientas que la expresión . sirve para indicar todos los caracteres excepto los terminadores de linea
+
+================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================
+Secuencias especiales
+
+"\d"=[0-9]  "\w"=[0-9a-Z_]
+
+La primera expresión nos va a indicar que se buscará cualquier número, puesto que indica a los dígitos del 0 al 9
+
+Mientas que la segunda expresión nos va a buscar todos los carácteres alfanuméricos, incluyendo en este caso los guiones bajos
+
+string ="Mi contraseña es abc123"
+re.findall("\d", string)
+['1', '2', '3']
+
+re.findall("\w", string)
+['M', 'i', 'c', 'o', 'n', 't', 'r', 'a', 's', 'e', 'ñ', 'a', 'e', 's', 'a', 'b', 'c', '1', '2', '3']
+================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================
+Uso de paréntesis
+{} (?=)
+En RegEx la expresión {} nos sirve para indicar límites, por ejemplo una expresión del tipo {4-8} nos va buscar específicamente aquellos elementos que posean una extensión entre 4 y 8
+
+regex = "[a-zA-Z0-9@#$%^&+=]{8,}"
+pwd=input("ingresa una contraseña ")
+if re.fullmatch(regex, pwd):
+	print("felicidades, lo lograste")
+else:
+	print("lo siento, no funciona")
+
+De esta misma forma la expresión (?=) nos sirve para indicar que se va a validar siempre y cuando contenga al menos uno de los caracteres indicados a continuación:
+regex = '(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}'
+
+================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================
+Uso de | y \
+
+ojo a la expresión | que me sirve para concatenar expresiones como posibilidades
+
+inputs = ['18:29','14:12', '1829', 'ab:de','99:99', '19:24']
+[re.fullmatch("[0-9]{2}:[0-9]{2}", x) for x in inputs] #Esta linea exige que hayan 2 digitos a cada lado del : por cada objeto en la lista inputs
+
+[re.fullmatch("([01][0-9]|2[0-3]):([0-5][0-9])", x) for x in inputs] #ojo en esta linea porque existen dos órdenes paralelas dependiendo de cuál sea el caso
+
+Cuando un caracter tiene una función en RegEx y necesito buscar ese caracter específico dentro del string hay que anteponer " \ " al objeto, por ejemplo \.
+
+================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================
+(?!) .*?
+La expresión .*? nos va a servir para buscar elementos dentro de un string y detenernos cada vez que se satisfagan nuestras especificaciones, esto sirve para cortar diversas palabras y no quedar con un string larguísimo que no nos sirva:
+texto = "peter piper picked a peck of pickled peppers"
+
+re.findall('p.*e.*r', texto) #sin la expresión ? el programa encuentra la primera p, la primera e y luego sigue buscando hasta el final donde encuentra la r y cierra
+['peter piper picked a peck of pickled pepper']
+
+re.findall('p.*?e.*?r', texto) # con la expresión ? el programa encuentra la primera p, la primera e y la primera r, cierra y luego sigue buscando, por eso se seccionan los string que cumplan las condiciones 
+['peter', 'piper', 'picked a peck of pickled pepper']
+
+La expresión ?! nos indica que si se encuentra un match entre lo introducido y lo buscado y luego viene un caracter en específico no se aplica la función especificada:
+string = "cambiar dos pero no cambiar 'dos'"
+re.sub("dos(?!')", "uno", string)
+"cambiar uno pero no cambiar 'dos'"

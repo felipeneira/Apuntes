@@ -1,0 +1,379 @@
+Ingresa los siguientes comandos en la consola de R:
+
+install.packages("swirl", dependencies = TRUE)
+
+library("swirl")
+
+select_language()
+
+Elegir español (6: spanish).
+
+install_course_github("ifunam", "programacion-estadistica-r")
+
+Puedes salir de swirl y volver a la línea de comandos de R (>) en cualquier momento pulsando la tecla
+Esc. Si ya te encuentras en la línea de comandos, teclea bye() para salir para salir y guardar tu
+progreso. Cuando salgas correctamente, verás un mensaje corto que te hará saberlo.
+
+Cuando estés en el indicador de R (>):
+-- Teclear skip() te permite saltar la pregunta actual.
+-- Teclear play() swirl te deja experimentar con R; swirl no hará caso de lo que teclees...
+-- HASTA que ingreses nxt(), vas a recuperar la atención de swirl.
+-- Al teclear bye() swirl terminará. Tu progreso se guardará.
+-- Al teclear main() te regresa al menú principal de swirl.
+-- Teclear info() muestra estas opciones de nuevo.
+
+
+=====================================================================================================================================================================================================================================================================
+Pedir ayuda en R:
+
+help.start() sirve para abrir la ayuda de la página oficial de R
+?print sirve para saber que hace una función en particular (en este caso en particular es print())
+apropos("class") genera una lista con todas las funcionas que contengan esta cadena particular
+example("read.table") sirve para ver un ejemplo funcional de lo que una función en particular hace
+??regression sirve para buscar información similar o afín de algo en particular
+vignette("test") sirve para pedir viñetas sobre una librería en particular
+
+
+=====================================================================================================================================================================================================================================================================
+Operaciones Básicas y números
+
+TIpos de objetos en R:
+	-Llamadas
+	-Expresiones
+	-Nombres
+	-Funciones
+
+R parece una calculadora pues se pueden realizar operaciones ariméticas con él
+En R casi todo es un objeto
+Dentro de este lenguaje se pueden hacer operaciones ariméticas y operaciones lógicas; siendo su elemento mínimo el vector
+
+Función ls() funciona para ver que contiene un objeto
+Función attach() sirve para volver a cargar los objetos en la memoria RAM
+
+Tipos de objetos en R:
+	.character
+	-numeric
+		-Integer
+		-Complex
+	-logical
+
+Todos los elementos de un vector deben ser de la misma clase, mientras que la lista puede tener diferentes tipos de objetos
+
+Función vector() para poner cosas dentro de un vector
+
+Usualmente los números se tratan como flotantes, sin embargo, posponiendo la L al número este se puede convertir en un entero
+
+NaN significa (Not a number) y sirve para operaciones aritméticas abstractas
+Inf significa infinito y sirve para representar numeros infinitos
+
+
+=====================================================================================================================================================================================================================================================================
+Atributos, entrada y coerción
+
+Los atributos pueden ser:
+	-Names, dimnames
+	-Dimensions
+	-Class
+	-Lenght
+	-Otros definidos por el usuario
+Estos se pueden ver con el comando atributes()
+
+Las entradas
+
+Se refiere a los elementos ingresados en la línea de comandos, con el símbolo # se pueden añadir comentarios a las entradas
+Entre corchetes se pueden poner los tamaños de los vectores.
+Para crear un vector podemos usar c() o bien vector()
+Para usar vector() hay que especificar el tipo de vector y el tamaño del vector con lenght = x
+
+Coerción
+
+Cuando se mezclan objetos diferentes en un vector se hace una operación llamada coerción:
+y <- c(1.7, "a") #Por ejemplo acá 1.7 se convierte en un carácter porque R busca un tipo común que pueda englobar al resto
+Existe un tipo de coerción explícita que se forma con as.__():
+	-as.numeric()
+	-as.logical()
+	-as.character()
+	-as.integer()
+
+
+=====================================================================================================================================================================================================================================================================
+Matrices
+
+Son vectores con un atributo de dimención que indica el número de filas y de columnas
+Se utiliza para esto la función matrix():
+m <- matrix(1:10, nrow = 2, ncol = 3) # estas se rellenan columna a columna y de izquierda a derecha
+También existe la función dim(x) <- c(y,z) # en este tipo x corresponde al vector a dimensionar, y al número de filas y z al número de columnas
+También se puede seleccionar donde van los vectores (en las columnas o en las filas):
+
+x <- 1:5
+y <- 6:10
+
+cbind(x,y) #en este caso como es cbind las variables x e y van a formar parte de las columnas:
+     x  y
+[1,] 1  6
+[2,] 2  7
+[3,] 3  8
+[4,] 4  9
+[5,] 5 10
+
+rbind(x,y) #en este caso como es rbind las variables x e y van a formar parte de las filas:
+  [,1] [,2] [,3] [,4] [,5]
+x    1    2    3    4    5
+y    6    7    8    9   10
+
+En caso de ser elementos de diferentes tamaños genera error, porque para formar matrix estas siempre deben ser iguales en cantidad
+
+
+=====================================================================================================================================================================================================================================================================
+Precedencia y operaciones vectoriales
+
+Existen todas las operaciones que pueden crearse en una calculadora científica, pero también
+se pueden crear operaciones lógicas y de comparación
+
+Usar paréntesis para llevar el orden, tanto en R como en python
+
+Reglas de procedencia:
+	-Llamadas a funciones y expresiones agrupadas
+	-Operaciones de indexado y búsqueda
+	-Aritméticas
+	-Comparación
+	-Fórmulas
+	-Asignación
+	-Ayuda
+
+Si quiero sumar dos vectores estos se suman en orden:
+x <- 1:5
+y <- 6:10
+x+y = 7 9 11 13 15
+
+Estos vectores aplican la operación dada a cada uno de los elementos de un vector:
+x>=4
+FALSE FALSE FALSE  TRUE  TRUE #En este caso el bool >=4 es cierto solamente para los últimos
+				dos elementos de x.
+
+También se puede hacer con matrices:
+x <- matrix(1:16,4,4)
+y <- matrix(rep(5,16),4,4) #Esta es una matriz formada por una repetición de 5 que se hace 16 veces
+
+x+y
+     [,1] [,2] [,3] [,4]
+[1,]    6   10   14   18
+[2,]    7   11   15   19
+[3,]    8   12   16   20
+[4,]    9   13   17   21
+
+x*y
+     [,1] [,2] [,3] [,4]
+[1,]    5   25   45   65
+[2,]   10   30   50   70
+[3,]   15   35   55   75
+[4,]   20   40   60   80
+
+
+=====================================================================================================================================================================================================================================================================
+Manejo de fechas y tiempos
+
+Tipos de dato
+
+POSIXct utiliza como punto de inicio el 10 de enero de 1970, cuando es más adelante será un
+número positivo y cuando es anterior un número negativo
+
+En R los tipos de dato son diferentes como se muestran a como se trabajan en pantalla
+
+POSIXlt
+	1.Segundos
+	2.Minutos
+	3.Horas
+	4.Día del mes
+	5.Mes del año
+	6.Años desde 1900
+	7.Día de la semana
+	8.Día del año
+	9.Indicador de horario de verano
+
+Sys.time() es una función que nos da la fecha y hora actual
+En caso de que sea un POSIXlt podemos acceder a los valores de la hora utilizando doble corchete
+y los números expuestos arriba:
+l[[1]] #Esto nos da los segundos
+
+Puedo tomar esta fecha con un objeto de tipo tiempo y aplicar la función strftime(t,"%Y-%m-%d %H:%M:%S")
+esto para convertir la fecha en un str y poder trabajar con él en esta forma
+
+También tenemos la operación inversa, con strptime(), donde se intruduce en primer lugar el string
+que se quiera convertir en fecha y luego el formato deseado.
+
+Esto nos permite jugar y generar comparaciones entre fechar o para saber cuánto falta para un determinado
+momento
+
+mi_fecha1 <- c("2024-02-28 16:28:21")
+my_date <- strptime(mi_fecha, "%Y-%m-%d %H:%M:%S")
+my_date2 <- Sys.time()
+
+my_date - my_date2
+Time difference of 605.8269 days
+
+Se puede usar también la función as.Date() para tomar las fechas y trabajarlas en términos de días:
+cumple <- as.Date(0, origin = "1997-12-19")
+hoy <- Sys.Date()
+
+hoy-cumple
+Time difference of 8961 days
+
+Finalmente existe la función format(), esta sirve para sacar y dar el formato requerido al
+string que necesitemos extraer de la fecha:
+ahora <- Sys.time()
+
+format(ahora, "%m-%d %H:%M")
+"07-02 19:45"
+
+=====================================================================================================================================================================================================================================================================
+Listas, Factores, Valores Faltantes y Dataframes
+
+Las listas pueden contener distintos tipos de objetos y les asigna un index indicado por doble
+corchete:
+x <- list(1, "a", TRUE, 1+8i)
+
+Los factores son como vectores de enteros y se usan para representar datos categóricos pues
+asignan etiquetas a los elementos:
+x <- factor(c("yes","yes","no")) #al existir dos niveles (dos elementos distintos) se asigna a cada uno un número entero
+
+Estos niveles se pueden ordenar con el parámetro levels, el que lleva un vector que establece este orden:
+x <- factor(c("yes","yes","no"), level=c("yes","no"))
+En caso de faltar valores estos se agregan con NA o NAN. Un NAN es un NA, pero no al revés.
+Para revisar si existen estos valores existen las funciones is.na() y is.nan()
+
+Dataframes
+Cada elemento de una lista se puede ver como una columna y la longitud de cada uno de ellos es el numero de filas
+Se parecen a las matrices pero no son vectores, pues pueden tener diferentes tipos de elementos dentro (esto porque son listas)
+Para esto existe la funcion data.frame(), las funciones read.csv() y read.table() y también la función data.matrix()
+
+la función data.frame() puede llevar como parámetros los nombres de las columnas y sus contenidos:
+x <- data.frame(columna1= 1:4, columna2 = c(T,T,T,F))
+x
+  columna1 columna2
+1        1     TRUE
+2        2     TRUE
+3        3     TRUE
+4        4    FALSE
+
+Además se puede saber el número de columnas y filas con nrow() y ncol().
+
+Además se le pueden poner nombres a los elementos dentro de los vectores, matrices, listas y dataframes.
+En el caso de vectores y listas utilizamos la función names() y en el caso de las dimensiones de las matrices y dataframes usamos diframes()
+m <- matrix(1:4, nrow=2, ncol=2)
+     [,1] [,2]
+[1,]    1    3
+[2,]    2    4
+
+dimnames(m) <- list(c("a", "b"), c("h", "i"))
+  h i
+a 1 3
+b 2 4
+row.names
+col.names
+
+=====================================================================================================================================================================================================================================================================
+Subconjunto de datos
+
+Subsetting (tomar un subconjunto)
+
+[] extraer elementos de una misma clase
+
+x <- matrix (1:10, 2, 5)
+     [,1] [,2] [,3] [,4] [,5]
+[1,]    1    3    5    7    9
+[2,]    2    4    6    8   10
+
+Puedo extraer elementos puntuales si doy ambas coordenadas o un boolean, pero también puedo extraer columnas o filas enteras
+
+x[2, 4]
+8
+
+x[2, ]
+2  4  6  8 10
+
+También se puede extraer en formato matriz usando drop =false como parámetro
+
+x[2, , drop = F]
+     [,1] [,2] [,3] [,4] [,5]
+[1,]    2    4    6    8   10
+
+[[]] extraer elementos de una lista o dataframe. La clase regresada puede no ser una lista o dataframe
+
+Con este operador se pueden usar índices propios para poder buscar ciertos datos de forma más fácil
+
+x <- list(hola1 = 1, hola2 = 2)
+nombre <- "hola2"
+x[[nombre]]
+2
+
+También puedo usarlo para buscar elementos dentro de una lista que está a su vez dentro de otra lista:
+
+x <- list(b=list(10,11,12), b=c(9.8,2.33)) #dentro de la lista x, tengo otra lista
+x[[c(1,3)]] #acá le pido que extraiga del objeto 1 el objeto 3 que es 12
+12
+x[[1]][[3]] #Esto también se puede escribir así
+12
+x[[c(2,1)]]
+9.8
+
+También existen búsquedas mediante el doble corchete que permiten encontrar elementos parecidos en caso de no encontrar un caso exacto,
+por ejemplo:
+x<- list(mmmddd223s = 1:35)
+x[["m", exact=F]] #Es necesario agregar el parámetro exact para esto
+ [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19
+[20] 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35
+$ extrae elementos de un dataframe
+
+Con este operador no se pueden usar índices propios para buscar los elementos
+
+Con este operador podemos buscar elementos similares de forma más fácil
+x$m
+ [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19
+[20] 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35
+
+En caso de que mis datos contengan NA y NAN que desee borrar puedo utilizar la función is.na(),
+de esta forma si uso is.na() me entrega un vector lógico donde los NA quedan marcados con TRUE y pueden ser eliminados posteriormente
+
+x <- c(3231, 52, NA, NA, NA, 34) #el vector x posee 3 NA
+faltantes <- is.na(x) #Creo un vector basado en x que marca los NA con TRUE
+faltantes
+FALSE FALSE  TRUE  TRUE  TRUE FALSE
+x[!faltantes] #Extraigo de x los elementos que sean falsos usando el operador !
+3231   52   34
+x[faltantes] #En caso de ser lo contrario y desee solamente extraer los valores que son verdaderos no uso el !, aunque en este caso solo entrega NA
+NA NA NA
+
+Existe también la función complete.cases(), con esta puedo seleccionar de un data frame todas las filas qe posean NA y eliminarlas completamente para
+limpiar mis datos
+
+=====================================================================================================================================================================================================================================================================
+Leer y escribir datos
+
+Funciones para leer datos:
+-read.table, read.csv
+-readLines
+-source
+-dget
+-load
+-unserialize
+
+
+Funcion read.table() tiene una serie de parámetros importantes:
+-file #el archivo
+-header #indica si la tabla tiene header en las columnas o no
+-sep #indica con que se separa el csv
+-colClasses #Recibe en un vector los tipos de clases que le corresponden a cada una de las columnas
+-nrows # cantidad de filas
+-comment.char #revisa si hay comentarios, es recomendable desactivarlo para liberar espacio en la RAM comment.char= ""
+-skip #en caso de haber espacios en blanco estos se saltan y se dejan como tal
+-stringsAsFactor #
+Además por defecto ignorará las lineas con '#', además delimitará sola la cantidad de filas y averiguará las variables
+
+Funciones para escribir datos:
+-write.table
+-write.Lines
+-dump
+-dput
+-save
+-serialize
