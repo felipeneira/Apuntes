@@ -1,0 +1,68 @@
+{} sirve en python para establecer strings que entrarán después con un .format()
+
+cosas_utiles = {'precio':30,
+				'nombre':Juan,
+				'cantidad:4'}
+
+string = '{} compra {} computadores a {} cada uno por un total de {}'
+
+print(string.format(cosas_utiles['nombre'],
+					cosas_utiles['cantidad'],
+					cosas_utiles['precio'],
+					cosas_utiles['precio']*cosas_utiles['cantidad']))
+
+Juan compra 4 computadores a 30 cada uno por un total de 120
+
+
+
+map() se usa para correr una determinada función en una o más listas:
+
+people = ['Dr. Christopher Brooks', 'Dr. Kevyn Collins-Thompson', 'Dr. VG Vinod Vydiswaran', 'Dr. Daniel Romero']
+
+def split_title_and_name(person):
+    title = person.split()[0]
+    lastname = person.split()[-1]
+    return '{} {}'.format(title, lastname)
+
+list(map(split_title_and_name, people))
+
+
+
+Aprender a usar lambda
+
+people = ['Dr. Christopher Brooks', 'Dr. Kevyn Collins-Thompson', 'Dr. VG Vinod Vydiswaran', 'Dr. Daniel Romero']
+
+def split_title_and_name(person):
+    return person.split()[0] + ' ' + person.split()[-1]
+
+#option 1
+for person in people:
+    print(split_title_and_name(person) == (lambda x: x.split()[0] + ' ' + x.split()[-1])(person))
+
+#option 2
+list(map(split_title_and_name, people)) == list(map(lambda person: person.split()[0] + ' ' + person.split()[-1], people))
+
+
+
+Escribir una función como una compresión de listas:
+
+def times_tables():
+    lst = []
+    for i in range(10):
+        for j in range (10):
+            lst.append(i*j)
+    return lst
+
+times_tables() == [j*i for i in range(10) for j in range(10)]
+
+
+Función que convierte una cantidad de dígitos y letras en nombres que no se repiten:
+
+lowercase = 'abcdefghijklmnopqrstuvwxyz'
+digits = '0123456789'
+
+correct_answer = [a+b+c+d for a in lowercase for b in lowercase for c in digits for d in digits]
+
+correct_answer[:50] # Display first 50 ids
+
+['aa00', 'aa01', 'aa02', 'aa03', 'aa04', 'aa05', 'aa06', 'aa07', 'aa08', 'aa09', 'aa10', 'aa11', 'aa12', 'aa13', 'aa14', 'aa15', 'aa16', 'aa17', 'aa18', 'aa19', 'aa20', 'aa21', 'aa22', 'aa23', 'aa24', 'aa25', 'aa26', 'aa27', 'aa28', 'aa29', 'aa30', 'aa31', 'aa32', 'aa33', 'aa34', 'aa35', 'aa36', 'aa37', 'aa38', 'aa39', 'aa40', 'aa41', 'aa42', 'aa43', 'aa44', 'aa45', 'aa46', 'aa47', 'aa48', 'aa49']
