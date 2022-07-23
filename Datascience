@@ -66,3 +66,29 @@ correct_answer = [a+b+c+d for a in lowercase for b in lowercase for c in digits 
 correct_answer[:50] # Display first 50 ids
 
 ['aa00', 'aa01', 'aa02', 'aa03', 'aa04', 'aa05', 'aa06', 'aa07', 'aa08', 'aa09', 'aa10', 'aa11', 'aa12', 'aa13', 'aa14', 'aa15', 'aa16', 'aa17', 'aa18', 'aa19', 'aa20', 'aa21', 'aa22', 'aa23', 'aa24', 'aa25', 'aa26', 'aa27', 'aa28', 'aa29', 'aa30', 'aa31', 'aa32', 'aa33', 'aa34', 'aa35', 'aa36', 'aa37', 'aa38', 'aa39', 'aa40', 'aa41', 'aa42', 'aa43', 'aa44', 'aa45', 'aa46', 'aa47', 'aa48', 'aa49']
+
+
+NUMPY
+
+NUMPY es una librería que contiene herramientas para trabajar mejor con números y datos
+Un ejemplo de las herramientas que tiene disponible son los array, esto nos permite crear elementos multidimensionales (por ejemplo una lista de listas)
+b = np.array([[1,2,3],[4,5,6]])
+b
+array([[1,2,3],
+       [4,5,6]])
+
+.shape sirve para saber la extensión de cada una de las dimensiones
+.dtype sirve para saber que tipo de item hay dentro del array
+
+Este tipo de construcciones admiten tanto integers como floats. En caso de ingresarse más de un tipo de datos, Numpy tratará de tratar de la forma más homogenea posible estos. (Por ejemplo convirtiendo los integers en float)
+
+En caso de saber la forma de un array o la cantidad de datos podemos crear un array vacío que inicie con 0 o 1, por ejemplo un array que contenga 0:
+
+d = np.zeros((3,4))
+print(d)
+
+[[0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]]
+
+ También se pueden generar arrays con números randoms, esto con la función np.random.rand(x,y), donde x e y son los valores de las dimensiones

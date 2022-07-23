@@ -1,0 +1,80 @@
+NUMPY
+
+NUMPY es una librería que contiene herramientas para trabajar mejor con números y datos
+Un ejemplo de las herramientas que tiene disponible son los array, esto nos permite crear elementos multidimensionales (por ejemplo una lista de listas)
+b = np.array([[1,2,3],[4,5,6]])
+b
+array([[1,2,3],
+       [4,5,6]])
+
+.shape sirve para saber la extensión de cada una de las dimensiones
+.dtype sirve para saber que tipo de item hay dentro del array
+
+Este tipo de construcciones admiten tanto integers como floats. En caso de ingresarse más de un tipo de datos, Numpy tratará de tratar de la forma más homogenea posible estos. (Por ejemplo convirtiendo los integers en float)
+
+En caso de saber la forma de un array o la cantidad de datos podemos crear un array vacío que inicie con 0 o 1, por ejemplo un array que contenga 0:
+
+d = np.zeros((3,4))
+print(d)
+
+[[0. 0. 0. 0.]
+ [0. 0. 0. 0.]
+ [0. 0. 0. 0.]]
+
+ También se pueden generar arrays con números randoms, esto con la función np.random.rand(x,y), donde x e y son los valores de las dimensiones
+
+ con la función .arange() se puede crear una secuencia de ńúmeros, esta toma 3 argumentos que son el numero en que inicia, el numero en que termina y el incremento
+ f = np.arange(12,24,2)
+ array([12, 14, 16, 18, 20, 22])
+
+También se puede utilizar .linspace() para crear una secuencia de floats con un número determinado de iteraciones, en este caso el tercer número indica la cantidad de números que aparecerán en el array (esto de forma estructurada)
+
+np.linspace(0,2,10)
+
+array([0.        , 0.22222222, 0.44444444, 0.66666667, 0.88888889,
+       1.11111111, 1.33333333, 1.55555556, 1.77777778, 2.        ])
+
+Con los arrays podemos hacer diferentes operaciones matemáticas o bien usar valores binarios (Booleanos). También podemos usar manipulación de matrices como product, transpose, inverse, 
+
+a = np.array([1,2,3,4])
+b = np.array([10,20,30,40])
+c = a*b
+c
+array([ 10,  40,  90, 160])
+
+Para hacer las operaciones estos elementos se tratan como un todo, por ejemplo si multiplico todos los valores de a por algún número, debo poner el nombre del array y no un ciclo for que multiplique por cada dato:
+
+a*2
+array([2, 4, 6, 8])
+
+esto también funciona con los booleanos:
+
+b>20
+array([False, False,  True,  True])
+
+========================================================================================
+
+Otro ejemplo es la multiplicación de matrices, la que se señala con el símbolo @:
+
+a = np.array([[1,1],[0,1]])
+b = np.array([[2,0],[3,4]])
+
+a@b
+array([[5, 4],
+       [3, 4]])
+
+========================================================================================
+
+Los arrays de Numpy poseen también funciones de lista, como por ejemplo sum(), max(), min() y mean()
+
+Otra función importante es .reshape(), que nos permite darle una forma determinada a un array ya existente
+
+b = np.arange(1,16,1)
+b
+array([ 1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15])
+
+b.reshape(3,5)
+array([[ 1,  2,  3,  4,  5],
+       [ 6,  7,  8,  9, 10],
+       [11, 12, 13, 14, 15]])
+
