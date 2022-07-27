@@ -1,0 +1,102 @@
+==========================================================================================================================================================
+Librerías necesarias
+==========================================================================================================================================================
+Para usar correctamente sickitlearn es importante usar correctamente los arrays y matrix de Numpy, esto porque los arrays son la principal fuente de trabajo de datos de la biblioteca.
+
+Es necesario también manejarse en scipy, debido a que sickit-learn toma una serie de funciones de esta biblioteca para su funcionamiento
+
+==========================================================================================================================================================
+Partes de una flor
+==========================================================================================================================================================
+En el ejemplo de las flores tenemos las medidas y los datos, por eso es que hablamos de un aprendizaje supervizado, que es el primero que enseña el libro
+
+Este ejemplo corresponde a un ejemplo de problema de clasificación, en este los posibles outputs van a ser llamados clases. De esta forma, cada uno de los iris a ser analizados serán encasillados dentro de una clase considerando sus medidas. Cada una de las especies reconocidas en este caso serán llamadas etiquetas.
+
+	print("First five rows of data:\n", iris_dataset['data'][:5])
+	First five rows of data:
+	 [[5.1 3.5 1.4 0.2]
+	 [4.9 3.  1.4 0.2]
+	 [4.7 3.2 1.3 0.2]
+	 [4.6 3.1 1.5 0.2]
+	 [5.  3.6 1.4 0.2]]
+
+	print("Feature names:\n", iris_dataset['feature_names'])
+	Feature names:
+	 ['sepal length (cm)', 'sepal width (cm)', 'petal length (cm)', 'petal width (cm)']
+
+En el caso anterior cada una de las columnas representa uno de los valores representados (largo y ancho), mientras que cada una de las filas corresponde a una flor diferente.
+
+En machine learning cada uno de los datos son llamados samples y sus propiedades son llamadas features
+
+En el siguiente ejemplo tenemos las 150 flores clasificadas por especie, si consideramos la variable 'taget_names' de iris_dataset podemos ver que el 0 corresponde a la especie setosa, el 1 la especie versicolor y el 2 a la especie virginica.
+
+	print("Target names:", iris_dataset['target_names'])
+	Target names: ['setosa' 'versicolor' 'virginica']
+
+	print("Target:\n", iris_dataset['target'])
+	Target:
+	 [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+	 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+	 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2
+	 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+	 2 2]
+
+==========================================================================================================================================================
+
+Es importante tener una cantidad parcializada de datos, esto debido a que no es buena idea entregar a la máquina la misma cantidad de datos más de una vez, pues esta recordará su posición. Parece ser que la mejor opción que hay es seleccionar una parte de datos para entrenar y una parte distinta para probar. Esto recibe los nombres de trainning data y test data.
+
+Sickit-learn posee una función que separa automáticamente los datos y los separa para esta tarea, la función es train_test_split() y toma un 75% de las filas de datos como el training set y el restante 25% como el test set.
+
+También en esta librería se suele utilizar la X (en mayúscula) para marcar los datos e y (en minúscula) para indicar el output en la creación de funciones.
+
+==========================================================================================================================================================
+
+Es también importante revisar primero los datos, esto para ver si el problema puede ser resuelto sin machine learning, o bien, para confirmar que los datos están utilizando la misma unidad de medida y nomenclatura. La mejor forma para analizar esto es, según el autor, plotearla.
+
+En caso de contar con datos de más de dos (en algunas ocasiones tres) dimensiones, es recomendable plotear por pares y así poder visualizar todos los datos igualmente.
+
+	from sklearn.model_selection import train_test_split
+	
+	X_train, X_test, y_train, y_test = train_test_split(
+	    iris_dataset['data'], iris_dataset['target'], random_state=0)
+
+En este caso separamos los datos x e y en train y test respectivamente
+
+Hay muchos algoritmos de clasificación en sickit-learn (y en machine learning), para este caso de la flor se utiliza principalmente uno llamado k-nearest neighbor classifier.
+
+La k en k-nearest significa que en vez de usar solamente el vecino más cercano al dato nuevo, consideraremos un número k de vecinos cercanos. Esto permite que no se agrupen solamente por cercanía, si no por cantidad de rasgos similares.
+
+knn = KNeighborsClassifier(n_neighbors=1)
+
+En este caso el número de vecinos es 1 y knn contiene el algoritmo que será utilizado por la máquina
+
+Para correr el entrenamiento de la máquina utilizamos la función knn.fit() y dentro ponemos las variables de entrenamiento, que en este caso son X_train y y_train definidas anteriormente.
+
+Una vez entrenada nuestra máquina le ingresamos un nuevo dato, para esto utilizaremos un array multidimensional de Numpy, es importante que sickit-learn siempre espera objetos con dos dimensiones.
+
+	Para esto tenemos la función predict() que nos va a entregar la predicción
+
+	nueva_flor = np.array([[5, 2.9, 1, 0.2]])
+
+	prediccion = knn.predict(nueva_flor)
+
+	print(prediccion)
+	[0]
+
+	print(iris_dataset['target_names'][prediccion]) #Lo que hace este print es buscar en la columna 'target_names' y extraer el index que es represantado 
+	['setosa']											por predicción, por esto es que nos devuelve el string
+
+También hay que recordar que teníamos un set para poder probar nuestra máquina, para poder utilizarla utilizaremos la misma función predict() con el set de prueba
+	
+	y_pred = knn.predict(X_test)
+	
+	print(y_pred)
+
+	[2 1 0 2 0 2 0 1 1 1 2 1 1 1 1 0 1 1 0 0 2 1 0 0 2 0 0 1 1 0 2 1 0 2 2 1 0 2]
+
+	print("Test set score: {:.2f}".format(np.mean(y_pred == y_test))) #lo que hace esta linea es escribir un string, delimitar el formato float con 2 
+																		digitos, sacar la mediana entre y_pred y y_test, que corresponden a la predicción y los datos de prueba
+
+	print("Test set score: {:.2f}".format(knn.score(X_test, y_test)))
+
+	
